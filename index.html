@@ -12,7 +12,7 @@
 		  window.fbAsyncInit = function() {
 			FB.init({
 			  appId      : '1587320158208404', // Set YOUR APP ID
-			  channelUrl : 'http://localhost', // Channel File
+			  channelUrl : 'http://192.168.1.40/face_login', // Channel File
 			  status     : true, // check login status
 			  cookie     : true, // enable cookies to allow the server to access the session
 			  xfbml      : true  // parse XFBML
@@ -148,7 +148,7 @@ También serán denunciados por SPAM, los usuarios que publiquen ENLACES a otros
     </div>
   <div data-role="main" id="status" class="ui-content" style="text-align:center;">
       
-	 <p><img src="http://i.stack.imgur.com/LKMP7.png" style="cursor:pointer;" onclick="Login()"/></p>
+	 <p><img src="http://i.stack.imgur.com/LKMP7.png" style="cursor:pointer;" class="ui-btn ui-btn-inline" align="center" onclick="Login()"/></p>
 	<br/><br/><br/><br/><br/>
 	<a href="#pageone" data-transition="slidedown" class="ui-btn" >Atras</a>
   </div>
