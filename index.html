@@ -1,0 +1,167 @@
+<html>
+	<head>
+		<title>Postealo ya!</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+		<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="phonegap.js"></script>
+		<script>
+		  window.fbAsyncInit = function() {
+			FB.init({
+			  appId      : '1587320158208404', // Set YOUR APP ID
+			  channelUrl : 'http://localhost', // Channel File
+			  status     : true, // check login status
+			  cookie     : true, // enable cookies to allow the server to access the session
+			  xfbml      : true  // parse XFBML
+			});
+		 
+			FB.Event.subscribe('auth.authResponseChange', function(response) 
+			{
+			 if (response.status === 'connected') 
+			{
+				document.getElementById("message").innerHTML +=  "<br>Conectado a Facebook";
+				//SUCCESS
+		 
+			}    
+			else if (response.status === 'not_authorized') 
+			{
+				document.getElementById("message").innerHTML +=  "<br>Failed to Connect";
+		 
+				//FAILED
+			} else 
+			{
+				document.getElementById("message").innerHTML +=  "<br>Logged Out";
+		 
+				//UNKNOWN ERROR
+			}
+			}); 
+		 
+			};
+		 
+			function Login()
+			{
+		 
+				FB.login(function(response) {
+				   if (response.authResponse) 
+				   {
+						getUserInfo();
+					} else 
+					{
+					 console.log('User cancelled login or did not fully authorize.');
+					}
+				 },{scope: 'email,user_photos,user_videos'});
+		 
+			}
+		 
+		  function getUserInfo() {
+				FB.api('/me', function(response) {
+				  getPhoto();
+				  var str="<b>Nombre:</b> "+response.name+"<br>";
+				  str +="<b>Email:</b> "+response.email+"<br>";
+				  str +="<div data-role='controlgroup' data-type='horizontal' align='center'>";
+				  str +="<input data-role='button' type='button' class='ui-btn  ui-corner-all' value='Postear en muro' onclick='fb_publish();'/>";
+				  str +="<input data-role='button' type='button' class='ui-btn  ui-corner-all' value='Salir' onclick='Logout();'/>";
+				  str +="</div>";
+				  document.getElementById("status").innerHTML=str;
+			});
+			}
+			function fb_publish() {
+		FB.ui({
+		  method: 'feed',
+		  //link: 'https://developers.facebook.com/docs/',
+		  caption: 'An example caption',
+		}, function(response){}); 
+		  }
+			function getPhoto()
+			{
+			  FB.api('/me/picture?type=normal', function(response) {
+		 
+				  var str=" <img src='"+response.data.url+"'/>";
+				  document.getElementById("status").innerHTML+=str;
+		 
+			});
+		 
+			}
+			function Logout()
+			{
+				FB.logout(function(){document.location.reload();});
+			}
+		 
+		  // Load the SDK asynchronously
+		  (function(d){
+			 var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+			 if (d.getElementById(id)) {return;}
+			 js = d.createElement('script'); js.id = id; js.async = true;
+			 js.src = "//connect.facebook.net/en_US/all.js";
+			 ref.parentNode.insertBefore(js, ref);
+		   }(document));
+		 
+		</script>
+	</head>
+<body>
+<div data-role="page" data-theme="b" data-content-theme="b" id="pageone" align="center">
+	<div data-role="header">
+	    <a href="#pageone" class="ui-btn ui-corner-all ui-shadow ui-icon-home ui-btn-icon-left">Inicio</a>
+    <img src="azul.jpg" height="50" width="1366">
+	<a href="#myPopup1" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all ui-shadow ui-btn-icon-left ui-icon-phone" data-position-to="window">Contactanos</a>
+  </div>
+	 <div data-role="popup" id="myPopup1" class="ui-content">
+      <p>Deserrollado por: Ricardo Illa <br/> Contactanos al numero: +59898529229</p>
+	  <p>O por e-mail: consultas@postealoya.com</p>
+    </div>
+	<div data-role="main" style="text-align:center;">
+	<h1>Postealo ya!</h1>
+	<p>Click en el boton para acceder:</p>
+	<a href="#pagetwo" data-transition="slideup" class="ui-btn" style="cursor:pointer;">Ingresar</a>
+	</div> 
+	<br/><br/><br/><br/><br/> 
+	    <div data-role="collapsible">
+      <h1>Terminos y condiciones de uso:</h1>
+      <p>Sobre los usuarios de Postealo ya!
+Los usuarios que publiquen mensajes agresivos en el Muro, insultos, difamación del servicio o derivados; serán bloqueados de nuestra pagina y Denunciados a Facebook (según las politicas actuales) para la posterior eliminación de su perfil, sin posibilidad a recuperar su información, fotos, videos, notas, etc.
+También serán denunciados por SPAM, los usuarios que publiquen ENLACES a otros grupos o páginas, internas o externas de Facebook, con la consecuencia de El bloqueo y Eliminación de su perfil.</p>
+    </div>
+	<h6>Al ingresar significa que usted ha leido y acepta los terminos y condiciones de uso.</h6>
+	<div data-role="footer" style="text-align:center;">
+	<a href="https://www.facebook.com/" class="ui-btn ui-corner-all ui-shadow ui-icon-plus ui-btn-icon-left">
+  <img src="facebook.png" alt="" style="width:45px;height:20px;border:0"></a>
+	<a href="https://twitter.com/" class="ui-btn ui-corner-all ui-shadow ui-icon-plus ui-btn-icon-left">
+  <img src="twitter.png" alt="" style="width:45px;height:20px;border:0"></a>
+	<a href="https://instagram.com/" class="ui-btn ui-corner-all ui-shadow ui-icon-plus ui-btn-icon-left">
+  <img src="instagram.jpg" alt="" style="width:45px;height:20px;border:0"></a>
+	<img src="azul.jpg" height="100" width="1366">
+  </div>
+	</div>
+</div>
+<div data-role="page" data-theme="b" data-content-theme="b" id="pagetwo" align="center">
+  <div data-role="header">
+	    <a href="#pageone" class="ui-btn ui-corner-all ui-shadow ui-icon-home ui-btn-icon-left">Inicio</a>
+<img src="azul.jpg" height="50" width="1366"><h1>Postealo ya!</h1>
+    <a href="#myPopup2" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all ui-shadow ui-btn-icon-left ui-icon-phone" data-position-to="window">Contactanos</a>
+  </div>
+	 <div data-role="popup" id="myPopup2" class="ui-content">
+      <p>Deserrollado por: Ricardo Illa <br/> Contactanos al numero: +59898529229</p>
+	  <p>O por e-mail: consultas@postealoya.com</p>
+    </div>
+  <div data-role="main" id="status" class="ui-content" style="text-align:center;">
+      
+	 <p><img src="http://i.stack.imgur.com/LKMP7.png" style="cursor:pointer;" onclick="Login()"/></p>
+	<br/><br/><br/><br/><br/>
+	<a href="#pageone" data-transition="slidedown" class="ui-btn" >Atras</a>
+  </div>
+
+	<div data-role="footer" style="text-align:center;">
+	<a href="https://www.facebook.com/" class="ui-btn ui-corner-all ui-shadow ui-icon-plus ui-btn-icon-left">
+  <img src="facebook.png" alt="" style="width:45px;height:20px;border:0"></a>
+	<a href="https://twitter.com/" class="ui-btn ui-corner-all ui-shadow ui-icon-plus ui-btn-icon-left">
+  <img src="twitter.png" alt="" style="width:45px;height:20px;border:0"></a>
+	<a href="https://instagram.com/" class="ui-btn ui-corner-all ui-shadow ui-icon-plus ui-btn-icon-left">
+  <img src="instagram.jpg" alt="" style="width:45px;height:20px;border:0"></a>
+	<img src="azul.jpg" height="100" width="1366">
+  </div>
+</div> 
+</body>
+</html>
